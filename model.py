@@ -35,3 +35,7 @@ plt.title("Outcome value")
 plt.xlabel("Outcome")
 plt.ylabel("Value")
 plt.show()
+
+# Write metrics to file
+with open('metrics.txt', 'w') as outfile:
+    outfile.write('Outcome : {}\nCoefficients : {}'.format(outcome, coefficients))
