@@ -6,19 +6,19 @@ jobs:
     container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v2
         with:
-          python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+          python-version: '3.10'
+      - uses: iterative/setup-cml@v1
       - name: 'Train my model'
-        env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Train model
           pip install -r requirements.txt
           python model.py
-
+      - name: 'Write CML report'
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           # Write to readme
           echo "## Model metrics" > report.md
           cat metrics.txt >> report.md
