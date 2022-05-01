@@ -1,26 +1,18 @@
-name: mlops-test
+name: mlops-exaple-tensorflow-regression
 on: [push]
 jobs:
   run:
     runs-on: [ubuntu-latest]
-    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
+    container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-      - uses: iterative/setup-cml@v1
       - name: 'Train my model'
-        run: |
-          # Train model
-          pip install -r requirements.txt
-          python model.py
-      - name: 'Write CML report'
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Write to readme
-          echo "## Model metrics" > report.md
-          cat metrics.txt >> report.md
+          # Your ML workflow goes here
+          pip install -r requirements.txt
+          python model.py
           
-          cml-send-comment report.md
+          echo "## Model Metrics" > report.md
+          cat metrics.txt >> report.md
