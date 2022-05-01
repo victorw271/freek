@@ -1,42 +1,102 @@
-from sklearn.linear_model import LinearRegression
-from random import randint
+# Import modules and packages
+import tensorflow as tf
+import numpy as np
 import matplotlib.pyplot as plt
 
 
-# Generate training set
-from random import randint
-TRAIN_SET_LIMIT = 1000
-TRAIN_SET_COUNT = 100
+# Functions and procedures
+def plot_predictions(train_data, train_labels,  test_data, test_labels,  predictions):
+  """
+  Plots training data, test data and compares predictions.
+  """
+  plt.figure(figsize=(6, 5))
+  # Plot training data in blue
+  plt.scatter(train_data, train_labels, c="b", label="Training data")
+  # Plot test data in green
+  plt.scatter(test_data, test_labels, c="g", label="Testing data")
+  # Plot the predictions in red (predictions were made on the test data)
+  plt.scatter(test_data, predictions, c="r", label="Predictions")
+  # Show the legend
+  plt.legend(shadow='True')
+  # Set grids
+  plt.grid(which='major', c='#cccccc', linestyle='--', alpha=0.5)
+  # Some text
+  plt.title('Model Results', family='Arial', fontsize=14)
+  plt.xlabel('X axis values', family='Arial', fontsize=11)
+  plt.ylabel('Y axis values', family='Arial', fontsize=11)
+  # Show
+  plt.savefig('model_results.png', dpi=120)
 
-TRAIN_INPUT = list()
-TRAIN_OUTPUT = list()
-for i in range(TRAIN_SET_COUNT):
-    a = randint(0, TRAIN_SET_LIMIT)
-    b = randint(0, TRAIN_SET_LIMIT)
-    c = randint(0, TRAIN_SET_LIMIT)
-    op = a + (2*b) + (3*c)
-    TRAIN_INPUT.append([a, b, c])
-    TRAIN_OUTPUT.append(op)
 
-# Train model
-predictor = LinearRegression(n_jobs=-1)
-predictor.fit(X=TRAIN_INPUT, y=TRAIN_OUTPUT)
 
-# Get output
-X_TEST = [[10, 20, 30]]
-outcome = predictor.predict(X=X_TEST)
-coefficients = predictor.coef_
+def mae(y_test, y_pred):
+  """
+  Calculuates mean absolute error between y_test and y_preds.
+  """
+  return tf.metrics.mean_absolute_error(y_test, y_pred)
+  
 
-print('Outcome : {}\nCoefficients : {}'.format(outcome, coefficients))
+def mse(y_test, y_pred):
+  """
+  Calculates mean squared error between y_test and y_preds.
+  """
+  return tf.metrics.mean_squared_error(y_test, y_pred)
 
-plt.figure()
-plt.bar(1, outcome)
-plt.title("Outcome value")
-plt.xlabel("Outcome")
-plt.ylabel("Value")
-plt.show()
+
+# Check Tensorflow version
+print(tf.__version__)
+
+
+# Create features
+X = np.arange(-100, 100, 4)
+
+# Create labels
+y = np.arange(-90, 110, 4)
+
+
+# Split data into train and test sets
+X_train = X[:40] # first 40 examples (80% of data)
+y_train = y[:40]
+
+X_test = X[40:] # last 10 examples (20% of data)
+y_test = y[40:]
+
+
+# Take a single example of X
+input_shape = X[0].shape 
+
+# Take a single example of y
+output_shape = y[0].shape
+
+
+# Set random seed
+tf.random.set_seed(42)
+
+# Create a model using the Sequential API
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(1), 
+    tf.keras.layers.Dense(1)
+    ])
+
+# Compile the model
+model.compile(loss = tf.keras.losses.mae,
+              optimizer = tf.keras.optimizers.SGD(),
+              metrics = ['mae'])
+
+# Fit the model
+model.fit(X_train, y_train, epochs=100)
+
+
+# Make and plot predictions for model_1
+y_preds = model.predict(X_test)
+plot_predictions(train_data=X_train, train_labels=y_train,  test_data=X_test, test_labels=y_test,  predictions=y_preds)
+
+
+# Calculate model_1 metrics
+mae_1 = np.round(float(mae(y_test, y_preds.squeeze()).numpy()), 2)
+mse_1 = np.round(float(mse(y_test, y_preds.squeeze()).numpy()), 2)
+print(f'\nMean Absolute Error = {mae_1}, Mean Squared Error = {mse_1}.')
 
 # Write metrics to file
 with open('metrics.txt', 'w') as outfile:
-    outfile.write('METRICS: \nOutcome : {}\nCoefficients : {}'.format(outcome, coefficients))
-
+    outfile.write(f'\nMean Absolute Error = {mae_1}, Mean Squared Error = {mse_1}.')
