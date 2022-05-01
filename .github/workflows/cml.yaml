@@ -12,7 +12,7 @@ jobs:
         run: |
           # Your ML workflow goes here
           pip install -r requirements.txt
-          python model.py
+          python FH_Pipeline2.py
           
           echo "## Model Metrics" > report.md
           cat metrics.txt >> report.md
