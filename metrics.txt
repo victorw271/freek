@@ -1,0 +1,36 @@
+
+
+ 0) datasets\mindaffectBCI_noisetag_bci_cyton_201026_1536.txt 
+X(['trial', 'time', 'channel'])=(20, 848, 8), Y=(20, 848, 26) @100.0hz 
+Cscale=3.436889410018921 
+score=0.5776533018867924 
+
+
+ 1) datasets\mindaffectBCI_noisetag_bci_cyton_201026_1540.txt 
+X(['trial', 'time', 'channel'])=(30, 876, 8), Y=(30, 876, 26) @100.0hz 
+Cscale=3.2530486583709717 
+score=0.5551750380517504 
+
+
+ 2) datasets\mindaffectBCI_noisetag_bci_cyton_unity_201027_1112.txt 
+X(['trial', 'time', 'channel'])=(30, 929, 8), Y=(30, 929, 26) @100.0hz 
+Cscale=3.5480124950408936 
+score=0.42102619303911015 
+
+
+ 3) datasets\mindaffectBCI_ssvep_bci_201117_1209.txt 
+X(['trial', 'time', 'channel'])=(37, 778, 8), Y=(37, 778, 10) @100.22550739163117hz 
+Cscale=3.841641426086426 
+score=0.7334468144236782 
+
+
+ 4) datasets\mindaffectBCI_ssvep_bci_201117_1219.txt 
+X(['trial', 'time', 'channel'])=(50, 521, 8), Y=(50, 521, 10) @100.22550739163117hz 
+Cscale=4.230129241943359 
+score=0.6677159309021113 
+
+
+ 5) datasets\mindaffectBCI_ssvep_bci_201117_1523.txt 
+X(['trial', 'time', 'channel'])=(90, 1101, 8), Y=(90, 1101, 10) @100.17530678687703hz 
+Cscale=4.229242324829102 
+score=0.893611867998789 

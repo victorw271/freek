@@ -65,12 +65,12 @@ def analyse_dataset(X:np.ndarray, Y:np.ndarray, coords, outfile, model:str='cca'
         print("X({})={}, Y={} @{}hz".format([c['name'] for c in coords], X.shape, Y.shape, fs))
         # Write metrics to file
         with open('metrics.txt', 'a') as outfile:
-            outfile.write("X({})={}, Y={} @{}hz".format([c['name'] for c in coords], X.shape, Y.shape, fs))
+            outfile.write("X({})={}, Y={} @{}hz \n".format([c['name'] for c in coords], X.shape, Y.shape, fs))
     else:
         print("X={}, Y={} @{}hz".format(X.shape, Y.shape, fs))
         # Write metrics to file
         with open('metrics.txt', 'a') as outfile:
-            outfile.write("X={}, Y={} @{}hz".format(X.shape, Y.shape, fs))
+            outfile.write("X={}, Y={} @{}hz \n".format(X.shape, Y.shape, fs))
     tau = int(tau_ms*fs/1000)
     offset=int(offset_ms*fs/1000)
 
@@ -80,7 +80,7 @@ def analyse_dataset(X:np.ndarray, Y:np.ndarray, coords, outfile, model:str='cca'
 
     # Write metrics to file
     with open('metrics.txt', 'a') as outfile:
-        outfile.write('Cscale={}'.format(Cscale))
+        outfile.write('Cscale={} \n'.format(Cscale))
 
     # create the model if not provided
     if isinstance(model,BaseSequence2Sequence):
@@ -168,7 +168,7 @@ def analyse_dataset(X:np.ndarray, Y:np.ndarray, coords, outfile, model:str='cca'
     print("score={}".format(score))
 
     with open('metrics.txt', 'a') as outfile:
-        outfile.write("score={}".format(score))
+        outfile.write("score={} \n".format(score))
 
     # compute decoding curve
     (dc) = decodingCurveSupervised(rawFy, marginalizedecis=True, minDecisLen=clsfr.minDecisLen, bwdAccumulate=clsfr.bwdAccumulate, priorsigma=(clsfr.sigma0_,clsfr.priorweight), softmaxscale=clsfr.softmaxscale_, nEpochCorrection=clsfr.startup_correction)
@@ -197,7 +197,7 @@ def analyse_datasets(dataset:str, model:str='cca', dataset_args:dict=None, loade
     for i, fi in enumerate(filenames):
         print("{}) {}".format(i, fi))
         with open('metrics.txt', 'a') as outfile:
-            outfile.write("{}) {}".format(i, fi))
+            outfile.write("\n\n {}) {} \n".format(i, fi))
         try:
             X, Y, coords = loader(fi, **loader_args)
             if preprocess_args is not None:
